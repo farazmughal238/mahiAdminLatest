@@ -25,7 +25,7 @@ class _DepartmentssState extends State<Departmentss> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Wrap(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,69 +152,79 @@ class _DepartmentssState extends State<Departmentss> {
                 )
               ],
             ),
-            DataTable(
-                dividerThickness: 0,
-                horizontalMargin: 15,
+            LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints boxConstraints)
+                {
+              return ConstrainedBox(
+                constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
 
-                columnSpacing: Responsive.isMobile(context) ? 40 : 210,
-                columns: [
-                  DataColumn(
-                      label: Padding(
-                        padding: const EdgeInsets.only(left: 18),
-                        child: Text(
-                          "Department Name",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  DataColumn(
-                      label: Text("Total Users",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text("Department ID",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                      dividerThickness: 0,
+                      horizontalMargin: 15,
+                      columnSpacing: boxConstraints.maxWidth/4,
+                      columns: [
+                        DataColumn(
+                            label: Padding(
+                              padding: const EdgeInsets.only(left: 18),
+                              child: Text(
+                                "Department Name",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                        DataColumn(
+                            label: Text("Total Users",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Department ID",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
 
-                  DataColumn(
-                      label: Text("",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                ],
-                rows: departmentModel.map((e) {
-                  return DataRow(cells: [
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          height: media.height * 0.06,
-                          width: media.width * 0.003,
-                          color: Color(0xff0063f7),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(e.depName,
-                            style: GoogleFonts.openSans(
-                                fontSize:
-                                Responsive.isMobile(context) ? 8 : 10)),
+                        DataColumn(
+                            label: Text("",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
                       ],
-                    )),
-                    DataCell(Text(e.totalUser,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                      rows: departmentModel.map((e) {
+                        return DataRow(cells: [
+                          DataCell(Row(
+                            children: [
+                              Container(
+                                height: media.height * 0.06,
+                                width: media.width * 0.003,
+                                color: Color(0xff0063f7),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(e.depName,
+                                  style: GoogleFonts.openSans(
+                                      fontSize:
+                                      Responsive.isMobile(context) ? 8 : 10)),
+                            ],
+                          )),
+                          DataCell(Text(e.totalUser,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
 
-                    DataCell(Text(e.depId,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                    DataCell(Text("Add",
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10,color: cColor().blue, fontWeight: FontWeight.bold))),
-                  ]);
-                }).toList()),
+                          DataCell(Text(e.depId,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                          DataCell(Text("Add",
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10,color: cColor().blue, fontWeight: FontWeight.bold))),
+                        ]);
+                      }).toList()),
+                ),
+              );
+            })
           ],
         ),
       ),

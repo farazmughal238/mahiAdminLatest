@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:apisd/HomeScreens/Responsive.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hovering/hovering.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class EditUser extends StatefulWidget {
   const EditUser({Key? key}) : super(key: key);
@@ -18,7 +18,6 @@ class EditUser extends StatefulWidget {
 }
 
 class _EditUserState extends State<EditUser> {
-
   bool checkValue = false;
 
   List<UserModel> newUsers = [
@@ -29,7 +28,6 @@ class _EditUserState extends State<EditUser> {
         userType: "Department Manager",
         checkBoxValue: false,
         threeDots: Icon(Icons.more_vert)),
-
     UserModel(
         fullName: "Akmal Brothers",
         emailAddress: "akmal.co.nz",
@@ -37,7 +35,6 @@ class _EditUserState extends State<EditUser> {
         userType: "Manager",
         checkBoxValue: false,
         threeDots: Icon(Icons.more_vert)),
-
     UserModel(
         fullName: "British Ambassador",
         emailAddress: "british.co.nz",
@@ -59,8 +56,42 @@ class _EditUserState extends State<EditUser> {
           padding: EdgeInsets.only(left: Responsive.isMobile(context) ? 15 : 60, top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Responsive.isMobile(context)
+              /*ResponsiveVisibility(
+                  visible: false,
+                  visibleWhen: [Condition.smallerThan(name: MOBILE)],
+                  child: InkWell(
+                      onTap: (){
+                        _modalBottomSheetMenu();
+                      },
+                      child: Icon(Icons.filter))),*/
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 10.0,
+                children: [
+                  buildColumn(media, context),
+                  buildColumn1(media, context),
+                  buildColumn2(media, context),
+                  buildColumn3(media, context),
+                  Responsive.isMobile(context) ? Container() : buildColumn4(),
+                ],
+              ),
+
+              /*ResponsiveRowColumn(
+                rowSpacing: 10,
+                rowMainAxisAlignment: MainAxisAlignment.start,
+                columnMainAxisAlignment: MainAxisAlignment.center,
+                layout: ResponsiveWrapper.of(context).isSmallerThan(TABLET)? ResponsiveRowColumnType.COLUMN: ResponsiveRowColumnType.ROW,
+                children: [
+                  ResponsiveRowColumnItem(child: buildColumn(media, context),),
+                  ResponsiveRowColumnItem(child: buildColumn1(media, context),),
+                  ResponsiveRowColumnItem(child: buildColumn2(media, context),),
+                  ResponsiveRowColumnItem(child: buildColumn3(media, context),),
+                  ResponsiveRowColumnItem(child: buildColumn4(),),
+                ],
+              ),*/
+              /*Responsive.isMobile(context)
                   ? Column(
                 children: [
                   Row(
@@ -105,39 +136,46 @@ class _EditUserState extends State<EditUser> {
                     child: buildColumn4(),
                   ),
                 ],
-              ),
+              ),*/
               SizedBox(
                 height: 20,
               ),
-              DataTable(
-                  dividerThickness: 0,
-                  horizontalMargin: 15,
-                  columnSpacing: Responsive.isMobile(context) ? 20 : 200,
-                  columns: [
-                    DataColumn(
-                        label: Padding(
-                          padding: const EdgeInsets.only(left: 18),
-                          child: Text(
-                            "Full Name",
-                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold),
-                          ),
-                        )),
-                    DataColumn(
-                        label: Text("Email Address",
-                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("", style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("User Type",
-                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("", style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                  ],
-                  rows: newUsers.map((e) {
-                    return DataRow(
-                        cells: [
-                          DataCell(
-                              Row(
+
+
+              LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints boxConstraints)
+                {
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columnSpacing: boxConstraints.maxWidth/6,
+                          columns: [
+                            DataColumn(
+                                label: Padding(
+                              padding: const EdgeInsets.only(left: 18),
+                              child: Text(
+                                "Full Name",
+                                style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                            DataColumn(
+                                label: Text("Email Address",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text("",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text("User Type",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text("",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                          ],
+                          rows: newUsers.map((e) {
+                            return DataRow(cells: [
+                              DataCell(Row(
                                 children: [
                                   Image.asset(
                                     "assets/photo.png",
@@ -146,48 +184,50 @@ class _EditUserState extends State<EditUser> {
                                   SizedBox(
                                     width: Responsive.isMobile(context) ? 1 : 15,
                                   ),
-                                  Text(e.fullName, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10)),
+                                  Expanded(child: Text(e.fullName, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
                                 ],
-                              )
-                          ),
-                          DataCell(Text(e.emailAddress, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                          DataCell(Text(e.id, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                          DataCell(Text(e.userType, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                          DataCell(Row(
-                            children: [
-                              Checkbox(
-                                checkColor: Color(0xff0063f7),
-                                activeColor: Colors.white,
-                                autofocus: false,
-                                value: e.checkBoxValue,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    e.checkBoxValue = value!;
-                                    if(e.checkBoxValue == true){
-                                      bloc.checkingValue(false);
-                                    }
-                                    else{
-                                      bloc.checkingValue(true);
-                                    }
-                                    //isSelected = e.checkBoxValue;
-                                    //checkingValueTrue();
-                                  });
-                                },
-                              ),
-                              PopupMenuButton(
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      child: Text(
-                                        "Remove",
-                                        style: GoogleFonts.openSans(fontSize: 12),
-                                      ),
-                                      value: 1,
-                                    ),
-                                  ]),
-                            ],
-                          )),
-                        ]);
-                  }).toList()),
+                              )),
+                              DataCell(Text(e.emailAddress, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                              DataCell(Text(e.id, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                              DataCell(Text(e.userType, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                              DataCell(Row(
+                                children: [
+                                  Checkbox(
+                                    checkColor: Color(0xff0063f7),
+                                    activeColor: Colors.white,
+                                    autofocus: false,
+                                    value: e.checkBoxValue,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        e.checkBoxValue = value!;
+                                        if (e.checkBoxValue == true) {
+                                          bloc.checkingValue(false);
+                                        } else {
+                                          bloc.checkingValue(true);
+                                        }
+                                        //isSelected = e.checkBoxValue;
+                                        //checkingValueTrue();
+                                      });
+                                    },
+                                  ),
+                                  PopupMenuButton(
+                                      itemBuilder: (context) => [
+                                            PopupMenuItem(
+                                              child: Text(
+                                                "Remove",
+                                                style: GoogleFonts.openSans(fontSize: 12),
+                                              ),
+                                              value: 1,
+                                            ),
+                                          ]),
+                                ],
+                              )),
+                            ]);
+                          }).toList()),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -372,9 +412,9 @@ class _EditUserState extends State<EditUser> {
                 borderRadius: BorderRadius.circular(5),
               ),
               focusedBorder:
-              const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
+                  const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
               enabledBorder:
-              const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
+                  const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
               contentPadding: EdgeInsets.only(top: 15, bottom: 10, left: 10),
               hintText: "(Name, Email Address, User ID)",
               hintStyle: GoogleFonts.openSans(color: Color(0xff6A6A6A), fontSize: 10),

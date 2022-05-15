@@ -176,8 +176,10 @@ class _EditDepartmentTabsState extends State<EditDepartmentTabs> {
               ),
             ),
             body: TabBarView(
-              /*controller: ,*/
-              children: [EditDetails(), EditUser()],
+              children: [
+                EditDetails(),
+                EditUser()
+              ],
             )));
   }
 }

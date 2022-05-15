@@ -26,7 +26,6 @@ class _ManageModulesState extends State<ManageModules> {
     Size media = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-
       drawer: Responsive.isMobile(context)
           ? Drawer(
           child: ListView(
@@ -608,7 +607,7 @@ class _ManageModulesState extends State<ManageModules> {
             padding: EdgeInsets.only(
                 left: Responsive.isMobile(context) ? 15 : 85,
                 right: Responsive.isMobile(context) ? 0 : 85),
-            child: Row(
+            child: Wrap(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -732,73 +731,82 @@ class _ManageModulesState extends State<ManageModules> {
           Padding(
             padding: EdgeInsets.only(
                 left: Responsive.isMobile(context) ? 10 : 70, top: 30),
-            child: DataTable(
-                dividerThickness: 0,
-                horizontalMargin: 15,
-                columnSpacing: Responsive.isMobile(context) ? 40 : 310,
-                columns: [
-                  DataColumn(
-                      label: Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: Text(
-                      "Module Name",
-                      style: GoogleFonts.openSans(
-                          fontSize: Responsive.isMobile(context) ? 8 : 10,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Text("Module ID",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text("Module Cost/Month",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text("Mod",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.transparent))),
-                ],
-                rows: modules.map((e) {
-                  return DataRow(cells: [
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          height: media.height * 0.06,
-                          width: media.width * 0.003,
-                          color: Color(0xff0063f7),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(e.userName,
-                            style: GoogleFonts.openSans(
-                                fontSize:
-                                    Responsive.isMobile(context) ? 8 : 10)),
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints boxConstraints)
+                {
+              return ConstrainedBox(
+                constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                      dividerThickness: 0,
+                      horizontalMargin: 15,
+                      columnSpacing: boxConstraints.maxWidth/4,
+                      columns: [
+                        DataColumn(
+                            label: Padding(
+                              padding: const EdgeInsets.only(left: 18),
+                              child: Text(
+                                "Module Name",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                        DataColumn(
+                            label: Text("Module ID",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Module Cost/Month",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Mod",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.transparent))),
                       ],
-                    )),
-                    DataCell(Text(e.id,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                    DataCell(Text(e.cost,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                    DataCell(InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AppTab(fromEdit: true,)));
-                        },
-                        child: Image.asset(
-                          "assets/edit.png",
-                          height: 17,
-                        ))),
-                  ]);
-                }).toList()),
+                      rows: modules.map((e) {
+                        return DataRow(cells: [
+                          DataCell(Row(
+                            children: [
+                              Container(
+                                height: media.height * 0.06,
+                                width: media.width * 0.003,
+                                color: Color(0xff0063f7),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(e.userName,
+                                  style: GoogleFonts.openSans(
+                                      fontSize: Responsive.isMobile(context) ? 8 : 10)),
+                            ],
+                          )),
+                          DataCell(Text(e.id,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                          DataCell(Text(e.cost,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                          DataCell(InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => AppTab(fromEdit: true,)));
+                              },
+                              child: Image.asset(
+                                "assets/edit.png",
+                                height: 17,
+                              ))),
+                        ]);
+                      }).toList()),
+                ),
+              );
+            }),
           ),
         ],
       ),
@@ -816,7 +824,7 @@ class _ManageModulesState extends State<ManageModules> {
         onPressed: () {},
         child: Text(
           "Apply",
-          style: GoogleFonts.openSans(
+            style: GoogleFonts.openSans(
             fontSize: Responsive.isMobile(context) ? 12 : 12,
             letterSpacing: 1.0,
             color: Colors.white,

@@ -1,6 +1,7 @@
 import 'package:apisd/ManageDepartment/new_department.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../HomeScreens/Responsive.dart';
 import '../HomeScreens/colors.dart';
@@ -513,7 +514,7 @@ class _Manage_departmentState extends State<Manage_department> {
       body: Padding(
         padding: EdgeInsets.only(left: Responsive.isMobile(context) ? 10 : 50,right: Responsive.isMobile(context) ? 10 : 50),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: EdgeInsets.only(
@@ -587,167 +588,180 @@ class _Manage_departmentState extends State<Manage_department> {
             SizedBox(
               height: media.height * 0.03,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: Responsive.isMobile(context)? 0.0 :40.0
-              ),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Search by department name",
-                        style: GoogleFonts.openSans(
-                            fontSize: 10, fontWeight: FontWeight.bold),
+            ResponsiveRowColumn(
+              rowMainAxisAlignment: MainAxisAlignment.start,
+              columnMainAxisAlignment: MainAxisAlignment.center,
+              columnCrossAxisAlignment: CrossAxisAlignment.center,
+              rowSpacing: 30.0,
+              layout: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)? ResponsiveRowColumnType.COLUMN: ResponsiveRowColumnType.ROW,
+              children: [
+                ResponsiveRowColumnItem(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Search by department name",
+                      style: GoogleFonts.openSans(
+                          fontSize: 10, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: media.height * 0.01,
+                    ),
+                    Container(
+                      width: ResponsiveValue(context, defaultValue: media.width * 0.25, valueWhen:  [
+                        Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+                        Condition.largerThan(name: MOBILE, value: media.width * 0.25),
+                        Condition.largerThan(name: TABLET, value: media.width * 0.25)
+                      ]).value,
+                      /*width: Responsive.isMobile(context)
+                          ? media.width * 0.45
+                          : media.width * 0.25,*/
+                      height: media.height * 0.050,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: cColor().lightblue,
                       ),
-                      SizedBox(
-                        height: media.height * 0.01,
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5)),
+                                borderSide:
+                                BorderSide(color: Color(0xfff0f0f0))),
+                            enabledBorder: const OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5)),
+                                borderSide:
+                                BorderSide(color: Color(0xfff0f0f0))),
+                            contentPadding:
+                            EdgeInsets.only(top: 15, bottom: 10),
+                            hintText: "Search",
+                            hintStyle: GoogleFonts.openSans(fontSize: 10),
+                            prefixIcon: Icon(
+                              Icons.search,
+                            )),
                       ),
-                      Container(
-                        width: Responsive.isMobile(context)
-                            ? media.width * 0.45
-                            : media.width * 0.25,
-                        height: media.height * 0.050,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: cColor().lightblue,
-                        ),
-                        child: TextFormField(
-                          cursorColor: Colors.black,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  borderSide:
-                                      BorderSide(color: Color(0xfff0f0f0))),
-                              enabledBorder: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  borderSide:
-                                      BorderSide(color: Color(0xfff0f0f0))),
-                              contentPadding:
-                                  EdgeInsets.only(top: 15, bottom: 10),
-                              hintText: "Search",
-                              hintStyle: GoogleFonts.openSans(fontSize: 10),
-                              prefixIcon: Icon(
-                                Icons.search,
-                              )),
-                        ),
+                    ),
+                  ],
+                ),),
+                ResponsiveRowColumnItem(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Sort by",
+                      style: GoogleFonts.openSans(
+                          fontSize: 10, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: media.height * 0.01,
+                    ),
+                    Container(
+                      width: ResponsiveValue(context, defaultValue: media.width * 0.25, valueWhen:  [
+                        Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+                        Condition.largerThan(name: MOBILE, value: media.width * 0.15),
+                        Condition.largerThan(name: TABLET, value: media.width * 0.20)
+                      ]).value,
+                      height: media.height * 0.050,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: cColor().lightblue,
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Sort by",
-                        style: GoogleFonts.openSans(
-                            fontSize: 10, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: media.height * 0.01,
-                      ),
-                      Container(
-                        width: Responsive.isMobile(context)
-                            ? media.width * 0.20
-                            : media.width * 0.15,
-                        height: media.height * 0.050,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: cColor().lightblue,
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            hint: Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                "A-Z",
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Text(
+                              "A-Z",
+                              style: GoogleFonts.openSans(
+                                  color: Color(0xff6A6A6A), fontSize: 10),
+                            ),
+                          ),
+                          items: <String>[
+                            'A-Z',
+                            'Z-A',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: new Text(
+                                value,
                                 style: GoogleFonts.openSans(
                                     color: Color(0xff6A6A6A), fontSize: 10),
                               ),
-                            ),
-                            items: <String>[
-                              'A-Z',
-                              'Z-A',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(
-                                  value,
-                                  style: GoogleFonts.openSans(
-                                      color: Color(0xff6A6A6A), fontSize: 10),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (_) {},
+                            );
+                          }).toList(),
+                          onChanged: (_) {},
+                        ),
+                      ),
+                    ),
+                  ],
+                ),),
+                ResponsiveRowColumnItem(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "",
+                      style: TextStyle(color: Colors.transparent),
+                    ),
+                    SizedBox(
+                      height: media.height * 0.009,
+                    ),
+                    Container(
+                      width: ResponsiveValue(context, defaultValue: media.width * 0.07, valueWhen:  [
+                        Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+                        Condition.smallerThan(name: TABLET, value: media.width * 0.1),
+                        Condition.largerThan(name: DESKTOP, value: media.width * 0.050),
+                      ]).value,
+                      /*width: Responsive.isMobile(context)
+                          ? media.width * 0.24
+                          : media.width * 0.05,*/
+                      height: media.height * 0.050,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: cColor().blue,
+                      ),
+                      child: RaisedButton(
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Text(
+                          "Apply",
+                          style: GoogleFonts.openSans(
+                            fontSize: ResponsiveValue(context, defaultValue: 10.0, valueWhen:  [
+                              Condition.smallerThan(name: MOBILE, value: 8.0),
+                              Condition.largerThan(name: MOBILE, value: 12.0),
+                              Condition.smallerThan(name: DESKTOP, value: 10.0),
+                            ]).value,
+                            letterSpacing: 1.0,
+                            color: Colors.white,
                           ),
                         ),
+                        color: Color(0xff0063f7),
+                        textColor: Colors.white,
+                        hoverColor: Colors.indigo[900],
+                        highlightColor: Colors.indigo[900],
+                        splashColor: Colors.indigo[900],
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "",
-                        style: TextStyle(color: Colors.transparent),
-                      ),
-                      SizedBox(
-                        height: media.height * 0.009,
-                      ),
-                      Container(
-                        width: Responsive.isMobile(context)
-                            ? media.width * 0.24
-                            : media.width * 0.05,
-                        height: media.height * 0.050,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: cColor().blue,
-                        ),
-                        child: RaisedButton(
-                          onPressed: () {},
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Text(
-                            "Apply",
-                            style: GoogleFonts.openSans(
-                              fontSize: 10,
-                              letterSpacing: 1.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                          color: Color(0xff0063f7),
-                          textColor: Colors.white,
-                          hoverColor: Colors.indigo[900],
-                          highlightColor: Colors.indigo[900],
-                          splashColor: Colors.indigo[900],
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )),
+
+              ],
             ),
             SizedBox(
               height: media.height * 0.03,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: Responsive.isMobile(context)? 0.0 :40.0
-              ),
+            Container(
+              width: double.infinity,
               child: DataTable(
                   dividerThickness: 0,
                   horizontalMargin: 15,
-                  columnSpacing: Responsive.isMobile(context) ? 25 : 340,
+                  //columnSpacing: Responsive.isMobile(context) ? 25 : 340,
                   columns: [
                     DataColumn(
                         label: Padding(

@@ -14,6 +14,7 @@ class NewEdit extends StatefulWidget {
 
 class _NewEditState extends State<NewEdit> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;

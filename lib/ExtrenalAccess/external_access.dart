@@ -636,8 +636,8 @@ class _ExternalaccessState extends State<Externalaccess> {
             Padding(
               padding: EdgeInsets.only(left: Responsive.isMobile(context) ? 15 : 85, right: Responsive.isMobile(context) ? 15 : 85),
               child: Responsive.isMobile(context)
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ? Wrap(
+                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
@@ -671,7 +671,7 @@ class _ExternalaccessState extends State<Externalaccess> {
                                 ),
                                 Container(
                                   width: Responsive.isMobile(context) ? media.width * 0.44 : media.width * 0.06,
-                                  height: media.height * 0.07,
+                                  height: media.height * 0.05,
                                   child: RaisedButton(
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                     onPressed: () {},
@@ -696,8 +696,9 @@ class _ExternalaccessState extends State<Externalaccess> {
                         )
                       ],
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  : Wrap(
+                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      spacing: 10,
                       children: [
                         buildColumn(context, media),
                         buildColumn1(context, media),
@@ -710,96 +711,106 @@ class _ExternalaccessState extends State<Externalaccess> {
             ),
             Padding(
               padding: EdgeInsets.only(left: Responsive.isMobile(context) ? 10 : 90, top: 30),
-              child: DataTable(
-                  //dataRowColor: MaterialStateProperty.resolveWith((_) => _getDataRowColor(this.states)),
-                  dividerThickness: 0,
-                  horizontalMargin: 15,
-                  columnSpacing: Responsive.isMobile(context) ? 40 : 130,
-                  columns: [
-                    DataColumn(
-                        label: Padding(
-                      padding: const EdgeInsets.only(left: 18),
-                      child: Text(
-                        "Module Name",
-                        style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                    DataColumn(
-                        label:
-                            Text("Type", style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: ExternalAccessGranted
-                            ? Text("Sent From",
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints boxConstraints)
+                {
+                return ConstrainedBox(
+                  constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      //dataRowColor: MaterialStateProperty.resolveWith((_) => _getDataRowColor(this.states)),
+                        dividerThickness: 0,
+                        horizontalMargin: 15,
+                        columnSpacing: Responsive.isMobile(context) ? 40 : 130,
+                        columns: [
+                          DataColumn(
+                              label: Padding(
+                                padding: const EdgeInsets.only(left: 18),
+                                child: Text(
+                                  "Module Name",
+                                  style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                          DataColumn(
+                              label:
+                              Text("Type", style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: ExternalAccessGranted
+                                  ? Text("Sent From",
+                                  style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))
+                                  : Text("Sent To",
+                                  style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                          DataColumn(
+                            label: ExternalAccessGranted
+                                ? Text(" From Organisation",
                                 style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))
-                            : Text("Sent To",
-                                style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                      label: ExternalAccessGranted
-                          ? Text(" From Organisation",
-                              style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))
-                          : Text(" To Organisation",
-                              style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold)),
-                    ),
-                    DataColumn(
-                        label: Text("Org ID",
-                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("Status",
-                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("S",
-                            style: GoogleFonts.openSans(
-                                fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold, color: Colors.transparent))),
-                  ],
-                  rows: external.map((e) {
-                    return DataRow(cells: [
-                      DataCell(Row(
-                        children: [
-                          Container(
-                            height: media.height * 0.06,
-                            width: media.width * 0.003,
-                            color: Color(0xff0063f7),
+                                : Text(" To Organisation",
+                                style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold)),
                           ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(e.userName, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10)),
+                          DataColumn(
+                              label: Text("Org ID",
+                                  style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text("Status",
+                                  style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text("S",
+                                  style: GoogleFonts.openSans(
+                                      fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold, color: Colors.transparent))),
                         ],
-                      )),
-                      DataCell(Text(e.type, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.sentfrom, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.org, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.id, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.status, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Row(
-                        children: [
-                          Checkbox(
-                            checkColor: Color(0xff0063f7),
-                            activeColor: Colors.white,
-                            autofocus: false,
-                            value: e.checkBoxValue,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                e.checkBoxValue = value!;
-                                isSelected = e.checkBoxValue;
-                                checkingValueTrue();
-                              });
-                            },
-                          ),
-                          PopupMenuButton(
-                              itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      child: Text(
-                                        "Remove",
-                                        style: GoogleFonts.openSans(fontSize: 12),
+                        rows: external.map((e) {
+                          return DataRow(cells: [
+                            DataCell(Row(
+                              children: [
+                                Container(
+                                  height: media.height * 0.06,
+                                  width: media.width * 0.003,
+                                  color: Color(0xff0063f7),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(e.userName, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10)),
+                              ],
+                            )),
+                            DataCell(Text(e.type, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                            DataCell(Text(e.sentfrom, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                            DataCell(Text(e.org, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                            DataCell(Text(e.id, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                            DataCell(Text(e.status, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                            DataCell(Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Color(0xff0063f7),
+                                  activeColor: Colors.white,
+                                  autofocus: false,
+                                  value: e.checkBoxValue,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      e.checkBoxValue = value!;
+                                      isSelected = e.checkBoxValue;
+                                      checkingValueTrue();
+                                    });
+                                  },
+                                ),
+                                PopupMenuButton(
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        child: Text(
+                                          "Remove",
+                                          style: GoogleFonts.openSans(fontSize: 12),
+                                        ),
+                                        value: 1,
                                       ),
-                                      value: 1,
-                                    ),
-                                  ]),
-                        ],
-                      )),
-                    ]);
-                  }).toList()),
+                                    ]),
+                              ],
+                            )),
+                          ]);
+                        }).toList()),
+                  ),
+                );
+              },)
             )
           ],
         ),

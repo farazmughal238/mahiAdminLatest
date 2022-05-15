@@ -29,7 +29,6 @@ class _BillingandpaymentState extends State<Billingandpayment> {
     Size media = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-
       drawer: Responsive.isMobile(context)
           ? Drawer(
           child: ListView(
@@ -462,7 +461,6 @@ class _BillingandpaymentState extends State<Billingandpayment> {
                   flex: 4,
                 ),
 
-
                 InkWell(
                     onTap: () {
                       // pageController.animateToPage(6,
@@ -580,7 +578,7 @@ class _BillingandpaymentState extends State<Billingandpayment> {
                               )
                             ])
                     : Container(
-                        width: media.width * 0.2,
+                        //width: media.width * 0.2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -591,6 +589,7 @@ class _BillingandpaymentState extends State<Billingandpayment> {
                                   color: cColor().blue,
                                   fontSize: 12),
                             ),
+                            SizedBox(width: 10,),
                             Text(
                               "Manage payment",
                               style: GoogleFonts.openSans(
@@ -598,6 +597,7 @@ class _BillingandpaymentState extends State<Billingandpayment> {
                                   color: cColor().blue,
                                   fontSize: 12),
                             ),
+                            SizedBox(width: 10,),
                             InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -610,8 +610,9 @@ class _BillingandpaymentState extends State<Billingandpayment> {
           ),
           Padding(
             padding: EdgeInsets.only(
-                left: Responsive.isMobile(context) ? 10 : 70, top: 30),
-            child: Row(
+                left: Responsive.isMobile(context) ? 10 : 70,
+                top: 30),
+            child: Wrap(
               children: [
                 Column(
                   children: [
@@ -684,7 +685,7 @@ class _BillingandpaymentState extends State<Billingandpayment> {
                     SizedBox(height: 10,),
                     Container(
                       width: Responsive.isMobile(context)
-                          ? media.width * 0.30
+                          ? media.width * 0.338
                           : media.width * 0.16,
                       height: media.height * 0.06,
                       decoration: BoxDecoration(
@@ -700,27 +701,29 @@ class _BillingandpaymentState extends State<Billingandpayment> {
                             width: Responsive.isMobile(context)
                                 ? media.width * 0.25
                                 : media.width * 0.1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image.asset(
-                                  "assets/minus.png",
-                                  height: 20,
-                                  width: 20,
-                                ),
-                                Text(
-                                  "500.000",
-                                  style: GoogleFonts.openSans(
-                                      fontSize:
-                                          Responsive.isMobile(context) ? 8 : 12,
-                                      color: Color(0xff0063f7)),
-                                ),
-                                Image.asset(
-                                  "assets/plus.png",
-                                  height: 20,
-                                  width: 20,
-                                ),
-                              ],
+                            child: Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.asset(
+                                    "assets/minus.png",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "500.000",
+                                    style: GoogleFonts.openSans(
+                                        fontSize:
+                                            Responsive.isMobile(context) ? 8 : 12,
+                                        color: Color(0xff0063f7)),
+                                  ),
+                                  Image.asset(
+                                    "assets/plus.png",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -731,13 +734,16 @@ class _BillingandpaymentState extends State<Billingandpayment> {
                 SizedBox(
                   width: media.width * 0.015,
                 ),
-                Column(
-                  children: [
-                    Text(""),
-                    Responsive.isMobile(context)
-                        ? Container()
-                        : buildContainer(context, media),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Column(
+                    children: [
+                      Text(""),
+                      Responsive.isMobile(context)
+                          ? Container()
+                          : buildContainer(context, media),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -747,67 +753,77 @@ class _BillingandpaymentState extends State<Billingandpayment> {
           ),
           Responsive.isMobile(context)
               ? Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10,),
                   child: buildContainer(context, media),
                 )
               : Container(),
           Padding(
             padding: EdgeInsets.only(
                 left: Responsive.isMobile(context) ? 10 : 70, top: 30),
-            child: DataTable(
-                dividerThickness: 0,
-                horizontalMargin: 15,
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints boxConstraints)
+                {
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                          dividerThickness: 0,
+                          horizontalMargin: 15,
+                          columnSpacing: boxConstraints.maxWidth/3,
+                          columns: [
+                            DataColumn(
+                                label: Padding(
+                                  padding: const EdgeInsets.only(left: 18),
+                                  child: Text(
+                                    "Module Name",
+                                    style: GoogleFonts.openSans(
+                                        fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                            DataColumn(
+                                label: Text("Module ID",
+                                    style: GoogleFonts.openSans(
+                                        fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text("Module Cost/Month",
+                                    style: GoogleFonts.openSans(
+                                        fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                        fontWeight: FontWeight.bold))),
+                          ],
+                          rows: billingandpayment.map((e) {
+                            return DataRow(cells: [
+                              DataCell(Row(
+                                children: [
+                                  Container(
+                                    height: media.height * 0.06,
+                                    width: media.width * 0.003,
+                                    color: Color(0xff0063f7),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(e.userName,
+                                      style: GoogleFonts.openSans(
+                                          fontSize:
+                                          Responsive.isMobile(context) ? 8 : 10)),
+                                ],
+                              )),
+                              DataCell(Text(e.id,
+                                  style: GoogleFonts.openSans(
+                                      fontSize: Responsive.isMobile(context) ? 8 : 10))),
 
-                columnSpacing: Responsive.isMobile(context) ? 40 : 420,
-                columns: [
-                  DataColumn(
-                      label: Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: Text(
-                      "Module Name",
-                      style: GoogleFonts.openSans(
-                          fontSize: Responsive.isMobile(context) ? 8 : 10,
-                          fontWeight: FontWeight.bold),
+                              DataCell(Text(e.cost,
+                                  style: GoogleFonts.openSans(
+                                      fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                            ]);
+                          }).toList()),
                     ),
-                  )),
-                  DataColumn(
-                      label: Text("Module ID",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text("Module Cost/Month",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                ],
-                rows: billingandpayment.map((e) {
-                  return DataRow(cells: [
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          height: media.height * 0.06,
-                          width: media.width * 0.003,
-                          color: Color(0xff0063f7),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(e.userName,
-                            style: GoogleFonts.openSans(
-                                fontSize:
-                                    Responsive.isMobile(context) ? 8 : 10)),
-                      ],
-                    )),
-                    DataCell(Text(e.id,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
-
-                    DataCell(Text(e.cost,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                  ]);
-                }).toList()),
+                  );
+                }
+            ),
           )
         ],
       ),
@@ -817,9 +833,9 @@ class _BillingandpaymentState extends State<Billingandpayment> {
   Container buildContainer(BuildContext context, Size media) {
     return Container(
       width: Responsive.isMobile(context)
-          ? media.width * 0.25
+          ? media.width
           : media.width * 0.06,
-      height: Responsive.isMobile(context)? media.height * 0.1:media.height * 0.06,
+      height: media.height * 0.06,
       child: RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onPressed: () {},

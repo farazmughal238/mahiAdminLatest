@@ -2,6 +2,9 @@ import 'package:apisd/HomeScreens/Responsive.dart';
 import 'package:apisd/HomeScreens/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_value.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 import 'dep_model.dart';
 class Depart extends StatefulWidget {
@@ -14,8 +17,6 @@ class Depart extends StatefulWidget {
 class _DepartState extends State<Depart> {
   List<DepModel> depModel = [
     DepModel(depName: "Global(All Users)", id: "1", totalUser: "2")
-
-
   ];
   @override
   Widget build(BuildContext context) {
@@ -24,16 +25,22 @@ class _DepartState extends State<Depart> {
       body: Padding(
         padding: EdgeInsets.only(left: Responsive.isMobile(context)?15 :80, top: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: Responsive.isMobile(context)? CrossAxisAlignment.center: CrossAxisAlignment.start,
+
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            ResponsiveRowColumn(
+              rowMainAxisAlignment: MainAxisAlignment.start,
+              columnMainAxisAlignment: MainAxisAlignment.center,
+              columnCrossAxisAlignment: CrossAxisAlignment.center,
+              rowSpacing: 30.0,
+              layout: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)? ResponsiveRowColumnType.COLUMN: ResponsiveRowColumnType.ROW,
               children: [
-                Column(
+                ResponsiveRowColumnItem(child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: Responsive.isMobile(context)? MainAxisAlignment.center :MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Search current user",
+                      "Search by department name",
                       style: GoogleFonts.openSans(
                           fontSize: 10, fontWeight: FontWeight.bold),
                     ),
@@ -41,9 +48,15 @@ class _DepartState extends State<Depart> {
                       height: media.height * 0.01,
                     ),
                     Container(
-                      width: Responsive.isMobile(context)
-                          ? media.width * 0.35
-                          : media.width * 0.25,
+                      width: ResponsiveValue(context, defaultValue: media.width * 0.25, valueWhen:  [
+                        Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+                        Condition.largerThan(name: MOBILE, value: media.width * 0.25),
+                        Condition.largerThan(name: TABLET, value: media.width * 0.25)
+                      ]).value,
+                      /*width: Responsive.isMobile(context)
+                          ? media.width * 0.45
+                          : media.width * 0.25,*/
+                      height: media.height * 0.050,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: cColor().lightblue,
@@ -51,30 +64,33 @@ class _DepartState extends State<Depart> {
                       child: TextFormField(
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              borderSide: BorderSide(color: Color(0xfff0f0f0))),
-                          enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              borderSide: BorderSide(color: Color(0xfff0f0f0))),
-                          contentPadding:
-                          EdgeInsets.only(top: 15, bottom: 10, left: 10),
-                          hintText: "(Name, Email Address, User ID)",
-                          hintStyle: GoogleFonts.openSans(
-                              color: Color(0xff6A6A6A), fontSize: 10),
-                        ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5)),
+                                borderSide:
+                                BorderSide(color: Color(0xfff0f0f0))),
+                            enabledBorder: const OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5)),
+                                borderSide:
+                                BorderSide(color: Color(0xfff0f0f0))),
+                            contentPadding:
+                            EdgeInsets.only(top: 15, bottom: 10),
+                            hintText: "Search",
+                            hintStyle: GoogleFonts.openSans(fontSize: 10),
+                            prefixIcon: Icon(
+                              Icons.search,
+                            )),
                       ),
                     ),
                   ],
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Column(
+                ),),
+                ResponsiveRowColumnItem(child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: Responsive.isMobile(context)? MainAxisAlignment.center :MainAxisAlignment.start,
                   children: [
                     Text(
                       "Sort by",
@@ -85,9 +101,12 @@ class _DepartState extends State<Depart> {
                       height: media.height * 0.01,
                     ),
                     Container(
-                      width: Responsive.isMobile(context)
-                          ? media.width * 0.24
-                          : media.width * 0.15,
+                      width: ResponsiveValue(context, defaultValue: media.width * 0.25, valueWhen:  [
+                        Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+                        Condition.largerThan(name: MOBILE, value: media.width * 0.15),
+                        Condition.largerThan(name: TABLET, value: media.width * 0.20)
+                      ]).value,
+                      height: media.height * 0.050,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: cColor().lightblue,
@@ -104,7 +123,7 @@ class _DepartState extends State<Depart> {
                           ),
                           items: <String>[
                             'A-Z',
-                            'A-Z',
+                            'Z-A',
                           ].map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -120,25 +139,28 @@ class _DepartState extends State<Depart> {
                       ),
                     ),
                   ],
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-
-                Column(
+                ),),
+                ResponsiveRowColumnItem(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: Responsive.isMobile(context)? MainAxisAlignment.center :MainAxisAlignment.start,
                   children: [
                     Text(
                       "",
                       style: TextStyle(color: Colors.transparent),
                     ),
                     SizedBox(
-                      height: media.height * 0.01,
+                      height: media.height * 0.009,
                     ),
                     Container(
-                      width: Responsive.isMobile(context)
-                          ? media.width * 0.28
-                          : media.width * 0.05,
-                      height: Responsive.isMobile(context)?media.height * 0.052 :media.height * 0.068,
+                      width: ResponsiveValue(context, defaultValue: media.width * 0.07, valueWhen:  [
+                        Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+                        Condition.smallerThan(name: TABLET, value: media.width * 0.1),
+                        Condition.largerThan(name: DESKTOP, value: media.width * 0.050),
+                      ]).value,
+                      /*width: Responsive.isMobile(context)
+                          ? media.width * 0.24
+                          : media.width * 0.05,*/
+                      height: media.height * 0.050,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: cColor().blue,
@@ -150,7 +172,11 @@ class _DepartState extends State<Depart> {
                         child: Text(
                           "Apply",
                           style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 10 : 10,
+                            fontSize: ResponsiveValue(context, defaultValue: 10.0, valueWhen:  [
+                              Condition.smallerThan(name: MOBILE, value: 8.0),
+                              Condition.largerThan(name: MOBILE, value: 12.0),
+                              Condition.smallerThan(name: DESKTOP, value: 10.0),
+                            ]).value,
                             letterSpacing: 1.0,
                             color: Colors.white,
                           ),
@@ -163,70 +189,76 @@ class _DepartState extends State<Depart> {
                       ),
                     ),
                   ],
-                ),
-
-
+                )),
 
               ],
             ),
             SizedBox(height: 20,),
-            DataTable(
-                dividerThickness: 0,
-                horizontalMargin: 15,
+            LayoutBuilder(builder: (BuildContext context, BoxConstraints boxConstraints){
+              return ConstrainedBox(
+                constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                      dividerThickness: 0,
+                      horizontalMargin: 15,
 
-                columnSpacing: Responsive.isMobile(context) ? 40 : 280,
-                columns: [
-                  DataColumn(
-                      label: Text(
-                        "Department Name",
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10,
-                            fontWeight: FontWeight.bold),
-                      )),
-                  DataColumn(
-                      label: Text("Total users",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text("Department ID",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text("",
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold))),
-                ],
-                rows: depModel.map((e) {
-                  return DataRow(cells: [
-                    DataCell(Row(
-                      children: [
-                        Container(
-                          height: media.height * 0.06,
-                          width: media.width * 0.003,
-                          color: Color(0xff0063f7),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(e.depName,
-                            style: GoogleFonts.openSans(
-                                fontSize:
-                                Responsive.isMobile(context) ? 8 : 10)),
+                      columnSpacing: boxConstraints.maxWidth/6,
+                      columns: [
+                        DataColumn(
+                            label: Text(
+                              "Department Name",
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        DataColumn(
+                            label: Text("Total users",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Department ID",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
                       ],
-                    )),
-                    DataCell(Text(e.totalUser,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                      rows: depModel.map((e) {
+                        return DataRow(cells: [
+                          DataCell(Row(
+                            children: [
+                              Container(
+                                height: media.height * 0.06,
+                                width: media.width * 0.003,
+                                color: Color(0xff0063f7),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(e.depName,
+                                  style: GoogleFonts.openSans(
+                                      fontSize:
+                                      Responsive.isMobile(context) ? 8 : 10)),
+                            ],
+                          )),
+                          DataCell(Text(e.totalUser,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
 
-                    DataCell(Text(e.id,
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                    DataCell(Text("Add", style: GoogleFonts.openSans(fontSize: 10, color: cColor().blue, fontWeight: FontWeight.bold),)),
-                  ]);
-                }).toList()),
+                          DataCell(Text(e.id,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                          DataCell(Text("Add", style: GoogleFonts.openSans(fontSize: 10, color: cColor().blue, fontWeight: FontWeight.bold),)),
+                        ]);
+                      }).toList()),
+                ),
+              );
+            })
           ],
         ),
       ),

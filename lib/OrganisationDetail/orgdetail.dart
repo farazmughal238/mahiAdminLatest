@@ -5,6 +5,7 @@ import 'package:apisd/SaveChanges.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../HomeScreens/Responsive.dart';
 import '../HomeScreens/colors.dart';
@@ -477,7 +478,7 @@ class _OrgdetailState extends State<Orgdetail> {
                             Navigator.pop(context);
                           },
                           child: Image.asset("assets/back.png")),
-                      SizedBox(
+                      /*SizedBox(
                         width: media.width * 0.02,
                       ),
                       InkWell(
@@ -487,7 +488,7 @@ class _OrgdetailState extends State<Orgdetail> {
                           child: Image.asset(
                             "assets/back.png",
                             height: Responsive.isMobile(context) ? 10 : 0,
-                          ))
+                          ))*/
                     ],
                   )),
                 ],
@@ -496,13 +497,20 @@ class _OrgdetailState extends State<Orgdetail> {
             SizedBox(
               height: media.height * 0.05,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: Responsive.isMobile(context) ? 20 : 200, top: 30),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Column(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ResponsiveRowColumn(
+                  rowMainAxisAlignment: MainAxisAlignment.center,
+                  //rowPadding: const EdgeInsets.symmetric(horizontal: 200.0),
+                  //columnPadding: const EdgeInsets.all(20),
+                  rowSpacing: 40.0,
+                  columnSpacing: 20.0,
+                  layout: ResponsiveWrapper.of(context).isSmallerThan(TABLET) ? ResponsiveRowColumnType.COLUMN : ResponsiveRowColumnType.ROW,
+                  children: [
+                    ResponsiveRowColumnItem(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
@@ -516,7 +524,12 @@ class _OrgdetailState extends State<Orgdetail> {
                             height: 10,
                           ),
                           Container(
-                            width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
+                            width: ResponsiveValue(context, defaultValue: media.width * 0.45, valueWhen: [
+                              Condition.smallerThan(name: MOBILE, value: media.width * 0.90),
+                              Condition.smallerThan(name: TABLET, value: media.width * 0.90),
+                              Condition.largerThan(name: TABLET, value: media.width * 0.32)
+                            ]).value,
+                            //width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
                             height: media.height * 0.06,
                             child: TextFormField(
                               cursorColor: Colors.black,
@@ -538,10 +551,9 @@ class _OrgdetailState extends State<Orgdetail> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: media.width * 0.05,
-                      ),
-                      Column(
+                    ),
+                    ResponsiveRowColumnItem(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
@@ -555,7 +567,12 @@ class _OrgdetailState extends State<Orgdetail> {
                             height: 10,
                           ),
                           Container(
-                            width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
+                            width: ResponsiveValue(context, defaultValue: media.width * 0.45, valueWhen: [
+                              Condition.smallerThan(name: MOBILE, value: media.width * 0.90),
+                              Condition.smallerThan(name: TABLET, value: media.width * 0.90),
+                              Condition.largerThan(name: TABLET, value: media.width * 0.32)
+                            ]).value,
+                            //width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
                             height: media.height * 0.06,
                             child: TextFormField(
                               cursorColor: Colors.black,
@@ -577,14 +594,20 @@ class _OrgdetailState extends State<Orgdetail> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: media.height * 0.04,
-                  ),
-                  Row(
-                    children: [
-                      Column(
+                    ),
+                  ],
+                ),
+
+                ResponsiveRowColumn(
+                  rowMainAxisAlignment: MainAxisAlignment.center,
+                  //rowPadding: const EdgeInsets.symmetric(horizontal: 200.0),
+                  columnPadding: const EdgeInsets.only(top: 20),
+                  rowPadding: const EdgeInsets.only(top: 20),
+                  columnSpacing: 20.0,
+                  layout: ResponsiveWrapper.of(context).isSmallerThan(TABLET) ? ResponsiveRowColumnType.COLUMN : ResponsiveRowColumnType.ROW,
+                  children: [
+                    ResponsiveRowColumnItem(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
@@ -598,7 +621,12 @@ class _OrgdetailState extends State<Orgdetail> {
                             height: 10,
                           ),
                           Container(
-                            width: Responsive.isMobile(context) ? media.width * 0.90 : media.width * 0.69,
+                            width: ResponsiveValue(context, defaultValue: media.width * 0.94, valueWhen: [
+                              Condition.smallerThan(name: MOBILE, value: media.width * 0.90),
+                              Condition.smallerThan(name: TABLET, value: media.width * 0.90),
+                              Condition.largerThan(name: TABLET, value: media.width * 0.67)
+                            ]).value,
+                           // width: Responsive.isMobile(context) ? media.width * 0.90  : media.width * 0.69,
                             height: media.height * 0.06,
                             child: TextFormField(
                               cursorColor: Colors.black,
@@ -620,14 +648,21 @@ class _OrgdetailState extends State<Orgdetail> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: media.height * 0.04,
-                  ),
-                  Row(
-                    children: [
-                      Column(
+                    ),
+                  ],
+                ),
+
+                ResponsiveRowColumn(
+
+                  rowMainAxisAlignment: MainAxisAlignment.center,
+                  rowPadding: const EdgeInsets.only(top: 20.0),
+                  columnPadding: const EdgeInsets.only(top: 20),
+                  rowSpacing: 40.0,
+                  columnSpacing: 20.0,
+                  layout: ResponsiveWrapper.of(context).isSmallerThan(TABLET) ? ResponsiveRowColumnType.COLUMN : ResponsiveRowColumnType.ROW,
+                  children: [
+                    ResponsiveRowColumnItem(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
@@ -641,7 +676,11 @@ class _OrgdetailState extends State<Orgdetail> {
                             height: 10,
                           ),
                           Container(
-                            width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
+                            width: ResponsiveValue(context, defaultValue: media.width * 0.45, valueWhen: [
+                              Condition.smallerThan(name: MOBILE, value: media.width * 0.90),
+                              Condition.smallerThan(name: TABLET, value: media.width * 0.90),
+                              Condition.largerThan(name: TABLET, value: media.width * 0.32)
+                            ]).value,
                             height: media.height * 0.06,
                             child: TextFormField(
                               cursorColor: Colors.black,
@@ -663,10 +702,9 @@ class _OrgdetailState extends State<Orgdetail> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: media.width * 0.05,
-                      ),
-                      Column(
+                    ),
+                    ResponsiveRowColumnItem(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
@@ -680,7 +718,11 @@ class _OrgdetailState extends State<Orgdetail> {
                             height: 10,
                           ),
                           Container(
-                            width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
+                            width: ResponsiveValue(context, defaultValue: media.width * 0.45, valueWhen: [
+                              Condition.smallerThan(name: MOBILE, value: media.width * 0.90),
+                              Condition.smallerThan(name: TABLET, value: media.width * 0.90),
+                              Condition.largerThan(name: TABLET, value: media.width * 0.32)
+                            ]).value,
                             height: media.height * 0.06,
                             child: TextFormField(
                               cursorColor: Colors.black,
@@ -702,14 +744,23 @@ class _OrgdetailState extends State<Orgdetail> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: media.height * 0.03,
-                  ),
-                  Row(
-                    children: [
-                      Container(
+                    ),
+                  ],
+                ),
+
+                ResponsiveRowColumn(
+
+                  rowMainAxisAlignment: MainAxisAlignment.center,
+                  columnCrossAxisAlignment: CrossAxisAlignment.center,
+                  rowPadding: const EdgeInsets.only(top: 40.0, right: 230.0),
+                  columnPadding: const EdgeInsets.only(top: 20),
+                  rowSpacing: 270.0,
+                  columnSpacing: 20.0,
+                  layout: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP) ? ResponsiveRowColumnType.COLUMN : ResponsiveRowColumnType.ROW,
+                  children: [
+
+                    ResponsiveRowColumnItem(
+                      child: Container(
                         width: 250,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -743,9 +794,9 @@ class _OrgdetailState extends State<Orgdetail> {
                                             padding: const EdgeInsets.all(17.0),
                                             child: Center(
                                                 child: Image.asset(
-                                              'assets/camera_pic.png',
-                                              color: Colors.white,
-                                            )),
+                                                  'assets/camera_pic.png',
+                                                  color: Colors.white,
+                                                )),
                                           ),
                                         ),
                                       ),
@@ -762,42 +813,217 @@ class _OrgdetailState extends State<Orgdetail> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: Responsive.isMobile(context) ? media.width * 0.08 : media.width * 0.20,
-                      ),
-                      Column(
+                    ),
+
+                    ResponsiveRowColumnItem(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Text(
+                                "Organisation ID",
+                                style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 12 : 12, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            DottedBorder(
+                              borderType: BorderType.RRect,
+                              radius: Radius.circular(5),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                child: Container(
+                                  height: media.height * 0.06,
+                                  width: Responsive.isMobile(context) ? media.width * 0.30 : media.width * 0.16,
+                                  child: Center(
+                                    child: Text("U-1234567"),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
+
+                  ],
+                ),
+
+                /*Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Text(
+                            "Website",
+                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 12 : 12, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
+                          height: media.height * 0.06,
+                          child: TextFormField(
+                            cursorColor: Colors.black,
+                            decoration: InputDecoration(
+                              hintText: 'www.nzitg.co.nz',
+                              hintStyle: TextStyle(color: Colors.black),
+                              filled: true,
+                              fillColor: ischange ? cColor().lightblue : cColor().grey,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
+                              contentPadding: EdgeInsets.only(top: 15, bottom: 10, left: 10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: media.width * 0.05,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Text(
+                            "Region",
+                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 12 : 12, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: Responsive.isMobile(context) ? media.width * 0.42 : media.width * 0.32,
+                          height: media.height * 0.06,
+                          child: TextFormField(
+                            cursorColor: Colors.black,
+                            decoration: InputDecoration(
+                              hintText: 'New Zealand (\$ NZD)',
+                              hintStyle: TextStyle(color: Colors.black),
+                              filled: true,
+                              fillColor: ischange ? cColor().lightblue : cColor().grey,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Color(0xfff0f0f0))),
+                              contentPadding: EdgeInsets.only(top: 15, bottom: 10, left: 10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: media.height * 0.03,
+                ),*/
+                /*Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 250,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
+                          Center(
                             child: Text(
-                              "Organisation ID",
-                              style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 12 : 12, fontWeight: FontWeight.bold),
+                              'Logo will be resized to 80mm height',
+                              style: TextStyle(fontSize: 10),
                             ),
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          DottedBorder(
-                            borderType: BorderType.RRect,
-                            radius: Radius.circular(5),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              child: Container(
-                                height: media.height * 0.06,
-                                width: Responsive.isMobile(context) ? media.width * 0.30 : media.width * 0.16,
-                                child: Center(
-                                  child: Text("U-1234567"),
+                          Container(
+                            height: 130,
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 8.0,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.black54,
+                                        radius: 30,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(17.0),
+                                          child: Center(
+                                              child: Image.asset(
+                                            'assets/camera_pic.png',
+                                            color: Colors.white,
+                                          )),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
+                                DottedBorder(
+                                  borderType: BorderType.RRect,
+                                  color: Colors.grey,
+                                  child: Container(height: 90, width: double.infinity, child: Image.asset('assets/logo.png')),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: Responsive.isMobile(context) ? media.width * 0.08 : media.width * 0.20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Text(
+                            "Organisation ID",
+                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 12 : 12, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: Radius.circular(5),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            child: Container(
+                              height: media.height * 0.06,
+                              width: Responsive.isMobile(context) ? media.width * 0.30 : media.width * 0.16,
+                              child: Center(
+                                child: Text("U-1234567"),
                               ),
                             ),
                           ),
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              ),
+                        ),
+                      ],
+                    )
+                  ],
+                )*/
+              ],
             ),
             SizedBox(
               height: media.height * 0.05,

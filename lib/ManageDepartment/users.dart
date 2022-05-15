@@ -6,7 +6,6 @@ import 'package:apisd/HomeScreens/colors.dart';
 import 'package:apisd/ManageDepartment/users_Model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hovering/hovering.dart';
 
 class User extends StatefulWidget {
   const User({Key? key}) : super(key: key);
@@ -56,8 +55,22 @@ class _UserState extends State<User> {
           padding: EdgeInsets.only(left: Responsive.isMobile(context) ? 15 : 60, top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Responsive.isMobile(context)
+
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 20.0,
+                children: [
+                  buildColumn(media, context),
+                  buildColumn1(media, context),
+                  buildColumn2(media, context),
+                  buildColumn3(media, context),
+                  Responsive.isMobile(context) ? Container() : buildColumn4(),
+                ],
+              ),
+
+              /*Responsive.isMobile(context)
                   ? Column(
                       children: [
                         Row(
@@ -102,79 +115,95 @@ class _UserState extends State<User> {
                           child: buildColumn4(),
                         ),
                       ],
-                    ),
+                    ),*/
               SizedBox(
                 height: 20,
               ),
-              DataTable(
-                  dividerThickness: 0,
-                  horizontalMargin: 15,
-                  columnSpacing: Responsive.isMobile(context) ? 20 : 200,
-                  columns: [
-                    DataColumn(
-                        label: Padding(
-                      padding: const EdgeInsets.only(left: 18),
-                      child: Text(
-                        "Full Name",
-                        style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                    DataColumn(
-                        label: Text("Email Address",
-                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("", style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("User Type",
-                            style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("", style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("", style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
-                  ],
-                  rows: newUsers.map((e) {
-                    return DataRow(
-                        cells: [
-                      DataCell(
-                          Row(
-                        children: [
-                          Image.asset(
-                            "assets/photo.png",
-                            height: Responsive.isMobile(context) ? 25 : 0,
-                          ),
-                          SizedBox(
-                            width: Responsive.isMobile(context) ? 1 : 15,
-                          ),
-                          Text(e.fullName, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10)),
-                        ],
-                      )
-                      ),
-                      DataCell(Text(e.emailAddress, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.id, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.userType, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(HoverWidget(
-                            hoverChild:  Checkbox(
-                              value: e.checkBoxValue,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  e.checkBoxValue = value!;
-                                  print(e.checkBoxValue);
-                                  var actualList = newUsers.firstWhere((element) => element.checkBoxValue == e.checkBoxValue).checkBoxValue == true;
-                                  print('actualList:${actualList}');
-                                });
-                              },
-                            ),
-                            onHover: (event) {
-                            },
-                            child: Container(
-                              color: Colors.black,
-                              height: 20,
-                              width: 20,
-                              ),
-                            ),),
-                      DataCell(e.threeDots),
-                    ]);
-                  }).toList()),
+              LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints boxConstraints) {
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                          columnSpacing: boxConstraints.maxWidth/6,
+                          columns: [
+                            DataColumn(
+                                label: Padding(
+                                  padding: const EdgeInsets.only(left: 18),
+                                  child: Text(
+                                    "Full Name",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                            DataColumn(
+                                label: Text("Email Address",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text("",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text("User Type",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text("",
+                                    style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10, fontWeight: FontWeight.bold))),
+                          ],
+                          rows: newUsers.map((e) {
+                            return DataRow(cells: [
+                              DataCell(Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/photo.png",
+                                    height: Responsive.isMobile(context) ? 25 : 0,
+                                  ),
+                                  SizedBox(
+                                    width: Responsive.isMobile(context) ? 1 : 15,
+                                  ),
+                                  Expanded(child: Text(e.fullName, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                                ],
+                              )),
+                              DataCell(Text(e.emailAddress, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                              DataCell(Text(e.id, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                              DataCell(Text(e.userType, style: GoogleFonts.openSans(fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                              DataCell(Row(
+                                children: [
+                                  Checkbox(
+                                    checkColor: Color(0xff0063f7),
+                                    activeColor: Colors.white,
+                                    autofocus: false,
+                                    value: e.checkBoxValue,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        e.checkBoxValue = value!;
+                                        /*if (e.checkBoxValue == true) {
+                                          bloc.checkingValue(false);
+                                        } else {
+                                          bloc.checkingValue(true);
+                                        }*/
+                                        //isSelected = e.checkBoxValue;
+                                        //checkingValueTrue();
+                                      });
+                                    },
+                                  ),
+                                  PopupMenuButton(
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          child: Text(
+                                            "Remove",
+                                            style: GoogleFonts.openSans(fontSize: 12),
+                                          ),
+                                          value: 1,
+                                        ),
+                                      ]),
+                                ],
+                              )),
+                            ]);
+                          }).toList()),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

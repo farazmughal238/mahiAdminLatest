@@ -1,8 +1,10 @@
 import 'package:apisd/HomeScreens/homescreen.dart';
 import 'package:apisd/ManageUser/Add_new_user.dart';
 import 'package:apisd/ManageUser/deleteUser.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../HomeScreens/Responsive.dart';
 import '../HomeScreens/colors.dart';
@@ -529,10 +531,11 @@ class _ManageUserState extends State<ManageUser> {
       body: Padding(
         padding: EdgeInsets.only(
             left: Responsive.isMobile(context) ? 10 : 55,
-            top: 20,
+            top: 40,
             right: Responsive.isMobile(context) ? 10 : 55),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -673,182 +676,140 @@ class _ManageUserState extends State<ManageUser> {
                     )),
               ],
             ),
-            Responsive.isMobile(context)
-                ? Column(
-                    children: [
-                      Column(
-                        children: [
-                          buildColumn(context, media),
-                          SizedBox(
-                            width: media.width * 0.01,
-                          ),
-                          buildColumn1(context, media),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          checkingValueTrue().isNotEmpty?  buildColumn7(context, media) : buildColumn2(context, media),
-                          SizedBox(
-                            width: media.width * 0.01,
-                          ),
-                          buildColumn3(media, context),
-                        ],
-                      ),
-                      SizedBox(
-                        height: media.height * 0.02,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          buildColumn5(),
-                          SizedBox(
-                            width: media.width * 0.08,
-                          ),
-                          buildColumn6()
-                        ],
-                      )
-                    ],
-                  )
-                : Row(
-                    children: [
-                      buildColumn(context, media),
-                      SizedBox(
-                        width: media.width * 0.01,
-                      ),
-                      buildColumn1(context, media),
-                      SizedBox(
-                        width: media.width * 0.01,
-                      ),
-                      checkingValueTrue().isNotEmpty?  buildColumn7(context, media) : buildColumn2(context, media),
-                      SizedBox(
-                        width: media.width * 0.01,
-                      ),
-                      buildColumn3(media, context),
-                      SizedBox(
-                        width: media.width * 0.03,
-                      ),
-                      buildColumn5(),
-                      SizedBox(
-                        width: media.width * 0.03,
-                      ),
-                      buildColumn6()
-                    ],
-                  ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.start,
+              spacing: 20.0,
+              children: [
+                buildColumn(context, media),
+                buildColumn1(context, media),
+                checkingValueTrue().isNotEmpty?  buildColumn7(context, media) : buildColumn2(context, media),
+                buildColumn3(media, context),
+                Responsive.isDesktop(context)? buildColumn5() : Container(),
+                Responsive.isDesktop(context)? buildColumn6() : Container()
+              ],
+            ),
             SizedBox(
               height: media.height * 0.04,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                  dividerThickness: 0,
-                  horizontalMargin: 15,
-                  columnSpacing: Responsive.isMobile(context) ? 32 : 200,
-                  columns: [
-                    DataColumn(
-                        label: Padding(
-                      padding: const EdgeInsets.only(left: 18),
-                      child: Text(
-                        "Full name",
-                        style: GoogleFonts.openSans(
-                            fontSize: Responsive.isMobile(context) ? 8 : 10,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                    DataColumn(
-                        label: Text("Email Address",
-                            style: GoogleFonts.openSans(
-                                fontSize: Responsive.isMobile(context) ? 8 : 10,
-                                fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("User ID",
-                            style: GoogleFonts.openSans(
-                                fontSize: Responsive.isMobile(context) ? 8 : 10,
-                                fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text("User Type",
-                            style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10,
-                              fontWeight: FontWeight.bold,
-                            ))),
-                    DataColumn(
-                        label: Text("",
-                            style: GoogleFonts.openSans(
-                                fontSize: Responsive.isMobile(context) ? 8 : 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.transparent))),
-                  ],
-                  rows: manageUser.map((e) {
-                    return DataRow(cells: [
-                      DataCell(Row(
-                        children: [
-                          Image.asset(
-                            e.pic,
-                            height: Responsive.isMobile(context) ? 35 : 50,
-                          ),
-                           SizedBox(width: 10,),
-                          Text(e.userName,
-                              style: GoogleFonts.openSans(
-                                  fontSize:
+            LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints boxConstraints)
+                {
+              return ConstrainedBox(
+                constraints: BoxConstraints(minWidth: boxConstraints.maxWidth),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                      dividerThickness: 0,
+                      horizontalMargin: 15,
+                      columnSpacing: boxConstraints.maxWidth/6,
+                      columns: [
+                        DataColumn(
+                            label: Padding(
+                              padding: const EdgeInsets.only(left: 18),
+                              child: Text(
+                                "Full name",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                        DataColumn(
+                            label: Text("Email Address",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("User ID",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("User Type",
+                                style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                        DataColumn(
+                            label: Text("",
+                                style: GoogleFonts.openSans(
+                                    fontSize: Responsive.isMobile(context) ? 8 : 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.transparent))),
+                      ],
+                      rows: manageUser.map((e) {
+                        return DataRow(cells: [
+                          DataCell(Row(
+                            children: [
+                              Image.asset(
+                                e.pic,
+                                height: Responsive.isMobile(context) ? 35 : 50,
+                              ),
+                              SizedBox(width: 10,),
+                              Text(e.userName,
+                                  style: GoogleFonts.openSans(
+                                      fontSize:
                                       Responsive.isMobile(context) ? 8 : 10),
-                              overflow: TextOverflow.ellipsis),
-                        ],
-                      )),
-                      DataCell(Text(e.emailAddress,
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.id,
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Text(e.userType,
-                          style: GoogleFonts.openSans(
-                              fontSize: Responsive.isMobile(context) ? 8 : 10))),
-                      DataCell(Row(
-                        children: [
-                          Checkbox(
-                            checkColor: Color(0xff0063f7),
-                            activeColor: Colors.white,
-                            autofocus: false,
-                            value: e.checkBoxValue,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                e.checkBoxValue = value!;
-                                isSelected = e.checkBoxValue;
-                                checkingValueTrue();
-                              });
-                            },
-                          ),
-                          PopupMenuButton(
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  child: InkWell(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUserByMenuButton()));
-                                    },
-                                    child: Text(
-                                      "Manage User",
-                                      style: GoogleFonts.openSans(fontSize: 12),
+                                  overflow: TextOverflow.ellipsis),
+                            ],
+                          )),
+                          DataCell(Text(e.emailAddress,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                          DataCell(Text(e.id,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                          DataCell(Text(e.userType,
+                              style: GoogleFonts.openSans(
+                                  fontSize: Responsive.isMobile(context) ? 8 : 10))),
+                          DataCell(Row(
+                            children: [
+                              Checkbox(
+                                checkColor: Color(0xff0063f7),
+                                activeColor: Colors.white,
+                                autofocus: false,
+                                value: e.checkBoxValue,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    e.checkBoxValue = value!;
+                                    isSelected = e.checkBoxValue;
+                                    checkingValueTrue();
+                                  });
+                                },
+                              ),
+                              PopupMenuButton(
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      child: InkWell(
+                                        onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUserByMenuButton()));
+                                        },
+                                        child: Text(
+                                          "Manage User",
+                                          style: GoogleFonts.openSans(fontSize: 12),
+                                        ),
+                                      ),
+                                      value: 1,
                                     ),
-                                  ),
-                                  value: 1,
-                                ),
-                                PopupMenuItem(
-                                  child: InkWell(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => DeleteUser()));
-                                    },
-                                    child: Text(
-                                      "Delete User",
-                                      style: GoogleFonts.openSans(fontSize: 12),
+                                    PopupMenuItem(
+                                      child: InkWell(
+                                        onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => DeleteUser()));
+                                        },
+                                        child: Text(
+                                          "Delete User",
+                                          style: GoogleFonts.openSans(fontSize: 12),
+                                        ),
+                                      ),
+                                      value: 1,
                                     ),
-                                  ),
-                                  value: 1,
-                                ),
-                              ]),
-                        ],
-                      )),
-                    ]);
-                  }).toList()),
-            ),
+                                  ]),
+                            ],
+                          )),
+                        ]);
+                      }).toList()),
+                ),
+              );
+            })
           ],
         ),
       ),
@@ -857,7 +818,8 @@ class _ManageUserState extends State<ManageUser> {
 
   Column buildColumn6() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           "Total Licenses",
@@ -1065,7 +1027,7 @@ class _ManageUserState extends State<ManageUser> {
         Container(
           width: Responsive.isMobile(context)
               ? double.infinity
-              : media.width * 0.14,
+              : Responsive.isTablet(context)? media.width * 0.24: media.width * 0.14,
           height: media.height * 0.05,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -1120,7 +1082,7 @@ class _ManageUserState extends State<ManageUser> {
         Container(
           width: Responsive.isMobile(context)
               ? double.infinity
-              : media.width * 0.28,
+              : Responsive.isTablet(context)? media.width * 0.15: media.width * 0.28,
           height: media.height * 0.05,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -1130,8 +1092,7 @@ class _ManageUserState extends State<ManageUser> {
             cursorColor: Colors.black,
             decoration: InputDecoration(
               hintText: "(Name, Email Address, User ID)",
-              hintStyle:
-                  GoogleFonts.openSans(fontSize: 12, color: Color(0xff6a6a6a)),
+              hintStyle: GoogleFonts.openSans(fontSize: 12, color: Color(0xff6a6a6a)),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),
               ),

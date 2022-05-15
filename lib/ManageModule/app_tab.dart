@@ -453,8 +453,6 @@ class _AppTabState extends State<AppTab> {
                 Spacer(
                   flex: 4,
                 ),
-
-
                 InkWell(
                     onTap: () {
                       // pageController.animateToPage(6,

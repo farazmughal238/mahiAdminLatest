@@ -4,8 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'HomeScreens/homescreen.dart';
+import 'Login&Signup/login_screen.dart';
+import 'di/serviceLocator.dart';
 
-void main() {
+Future<void> main() async{
+  await setUpLocator();
   runApp(MyApp());
 }
 
@@ -16,15 +19,19 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<EditDepartmentProvider>(
       create: (context) => EditDepartmentProvider(),
       child: MaterialApp(
-          builder: (context, widget) => ResponsiveWrapper.builder(ClampingScrollWrapper.builder(context, widget!),
+          builder: (context, widget) => ResponsiveWrapper.builder(ClampingScrollWrapper.builder(
+            context, widget!,
+          ),
+              minWidth: 480,
+              defaultScale: true,
               breakpoints: [
-                ResponsiveBreakpoint.resize(350, name: MOBILE),
-                ResponsiveBreakpoint.autoScale(600, name: TABLET),
-                ResponsiveBreakpoint.resize(800, name: DESKTOP),
-                ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+                ResponsiveBreakpoint.resize(480, name: MOBILE),
+                ResponsiveBreakpoint.resize(800, name: TABLET),
+                ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+                ResponsiveBreakpoint.resize(1700, name: 'XL'),
               ]),
           debugShowCheckedModeBanner: false,
-          home: MyHomePage()
+          home: LoginScreen()
       ),
     );
   }

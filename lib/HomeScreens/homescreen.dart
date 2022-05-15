@@ -1,6 +1,9 @@
 import 'package:apisd/HomeScreens/enduseradmin.dart';
+import 'package:apisd/Login&Signup/login_screen.dart';
+import 'package:apisd/Mixin/stateBaseMixin.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:apisd/Mixin/stateBaseMixin.dart';
 
 import 'Responsive.dart';
 
@@ -11,8 +14,10 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with BaseMixin{
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
@@ -352,7 +357,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         flex: 4,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          showOverlay('hello');
+                          navigationService.push(LoginScreen());
+                        },
                         child: Center(
                           child: Text(
                             "Home ",
@@ -572,6 +580,7 @@ class _SideProfieState extends State<SideProfie> {
                       ),
                       IconButton(
                           onPressed: () {
+
                             /*Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Newprofile()));*/
                           },

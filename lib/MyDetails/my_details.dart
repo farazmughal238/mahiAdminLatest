@@ -17,7 +17,6 @@ class _DetailsState extends State<Details> {
     Size media = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-
       drawer: Responsive.isMobile(context)
           ? Drawer(
           child: ListView(

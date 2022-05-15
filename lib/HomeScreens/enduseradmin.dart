@@ -10,6 +10,9 @@ import 'package:apisd/MyDetails/my_details.dart';
 import 'package:apisd/OrganisationDetail/orgdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 class Enduser extends StatefulWidget {
   const Enduser({Key? key}) : super(key: key);
@@ -28,7 +31,7 @@ class _EnduserState extends State<Enduser> {
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 35, left: Responsive.isMobile(context)?20 :55),
+                padding: EdgeInsets.only(top: 35, left: Responsive.isMobile(context)?20 :55, bottom: 20),
                 child: Text(
                   "Settings",
                   style: GoogleFonts.openSans(
@@ -39,90 +42,51 @@ class _EnduserState extends State<Enduser> {
               )
             ],
           ),
-          Padding(
-            padding: EdgeInsets.only(
-                left: Responsive.isMobile(context) ? 30 : 200,
-                right: Responsive.isMobile(context) ? 30 : 200,
-                top: 35),
-            child: LayoutBuilder(builder: (context, constraints) {
-              return Column(
-                children: [
-                  Responsive.isMobile(context)
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            buildInkWell(media),
-                            SizedBox(
-                              height: media.height * 0.04,
-                            ),
-                            buildInkWell1(media),
-                            SizedBox(
-                              height: media.height * 0.04,
-                            ),
-                            buildInkWell2(media)
-                          ],
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            buildInkWell(media),
-                            buildInkWell1(media),
-                            buildInkWell2(media),
-
-
-                          ],
-                        ),
-                  SizedBox(
-                    height: media.height * 0.05,
-                  ),
-                  Responsive.isMobile(context)
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            buildInkWell3(media),
-                            SizedBox(
-                              height: media.height * 0.04,
-                            ),
-                            buildInkWell4(media),
-                            SizedBox(
-                              height: media.height * 0.04,
-                            ),
-                            buildInkWell6(media)
-                          ],
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            buildInkWell3(media),
-                            buildInkWell4(media),
-                            buildInkWell6(media)
-
-                          ],
-                        ),
-                  SizedBox(
-                    height: media.height * 0.05,
-                  ),
-                  Responsive.isMobile(context)
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            buildInkWell5(media),
-                            SizedBox(
-                              height: media.height * 0.05,
-                            ),
-
-                          ],
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            buildInkWell5(media),
-                          ],
-                        )
-                ],
-              );
-            }),
-          ),
+          Column(
+              children: [
+                ResponsiveRowColumn(
+                  rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  rowPadding: const EdgeInsets.all(60.0),
+                  //columnPadding: const EdgeInsets.all(20),
+                  columnSpacing: 20.0,
+                  layout: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)? ResponsiveRowColumnType.COLUMN: ResponsiveRowColumnType.ROW,
+                  children: [
+                    ResponsiveRowColumnItem(
+                        child: buildInkWell(media),),
+                    ResponsiveRowColumnItem(
+                        child: buildInkWell1(media)),
+                    ResponsiveRowColumnItem(
+                        child: buildInkWell2(media)),
+                  ],
+                ),
+                ResponsiveRowColumn(
+                  rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  rowPadding: const EdgeInsets.symmetric(horizontal: 60.0, ),
+                  columnPadding: const EdgeInsets.all(20),
+                  columnSpacing: 20.0,
+                  layout: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)? ResponsiveRowColumnType.COLUMN: ResponsiveRowColumnType.ROW,
+                  children: [
+                    ResponsiveRowColumnItem(
+                      child: buildInkWell3(media),),
+                    ResponsiveRowColumnItem(
+                        child: buildInkWell4(media),),
+                    ResponsiveRowColumnItem(
+                        child: buildInkWell6(media)),
+                  ],
+                ),
+                ResponsiveRowColumn(
+                  rowMainAxisAlignment: MainAxisAlignment.center,
+                  rowPadding: const EdgeInsets.all(60),
+                  //columnPadding: const EdgeInsets.all(20),
+                  columnSpacing: 20.0,
+                  layout: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)? ResponsiveRowColumnType.COLUMN: ResponsiveRowColumnType.ROW,
+                  children: [
+                    ResponsiveRowColumnItem(
+                      child: buildInkWell5(media)),
+                  ],
+                ),
+              ],
+            ),
         ],
       ),
     );
@@ -135,9 +99,10 @@ class _EnduserState extends State<Enduser> {
             .push(MaterialPageRoute(builder: (context) => Externalaccess()));
       },
       child: Container(
-        width: Responsive.isMobile(context)
-            ? media.width * 0.85
-            : media.width * 0.20,
+        width: ResponsiveValue(context, defaultValue: media.width * 0.85, valueWhen:  [
+          Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+          Condition.largerThan(name: TABLET, value: media.width * 0.20)
+        ]).value,
         height: media.height * 0.17,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -151,7 +116,12 @@ class _EnduserState extends State<Enduser> {
               Text(
                 "External Access",
                 style: GoogleFonts.openSans(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                    fontSize: ResponsiveValue(context, defaultValue: 16.0, valueWhen:  [
+                      Condition.smallerThan(name: MOBILE, value: 12.0),
+                      Condition.largerThan(name: MOBILE, value: 12.0),
+                      Condition.smallerThan(name: DESKTOP, value: 16.0),
+                    ]).value,
+                    fontWeight: FontWeight.bold),
               ),
               Image.asset("assets/third.png")
             ],
@@ -168,9 +138,10 @@ class _EnduserState extends State<Enduser> {
             .push(MaterialPageRoute(builder: (context) => Billingandpayment()));
       },
       child: Container(
-        width: Responsive.isMobile(context)
-            ? media.width * 0.85
-            : media.width * 0.20,
+        width: ResponsiveValue(context, defaultValue: media.width * 0.85, valueWhen:  [
+          Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+          Condition.largerThan(name: TABLET, value: media.width * 0.20)
+        ]).value,
         height: media.height * 0.17,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -184,7 +155,12 @@ class _EnduserState extends State<Enduser> {
               Text(
                 "Billing & Payments",
                 style: GoogleFonts.openSans(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                    fontSize: ResponsiveValue(context, defaultValue: 16.0, valueWhen:  [
+                      Condition.smallerThan(name: MOBILE, value: 12.0),
+                      Condition.largerThan(name: MOBILE, value: 12.0),
+                      Condition.smallerThan(name: DESKTOP, value: 16.0),
+                    ]).value,
+                    fontWeight: FontWeight.bold),
               ),
               Image.asset("assets/group.png")
             ],
@@ -201,9 +177,10 @@ class _EnduserState extends State<Enduser> {
             .push(MaterialPageRoute(builder: (context) => ManageModules()));
       },
       child: Container(
-        width: Responsive.isMobile(context)
-            ? media.width * 0.85
-            : media.width * 0.20,
+        width: ResponsiveValue(context, defaultValue: media.width * 0.85, valueWhen:  [
+          Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+          Condition.largerThan(name: TABLET, value: media.width * 0.20)
+        ]).value,
         height: media.height * 0.17,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -217,7 +194,12 @@ class _EnduserState extends State<Enduser> {
               Text(
                 "Manage Modules",
                 style: GoogleFonts.openSans(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                    fontSize: ResponsiveValue(context, defaultValue: 16.0, valueWhen:  [
+                      Condition.smallerThan(name: MOBILE, value: 12.0),
+                      Condition.largerThan(name: MOBILE, value: 12.0),
+                      Condition.smallerThan(name: DESKTOP, value: 16.0),
+                    ]).value,
+                    fontWeight: FontWeight.bold),
               ),
               Image.asset("assets/manage.png")
             ],
@@ -234,9 +216,10 @@ class _EnduserState extends State<Enduser> {
             .push(MaterialPageRoute(builder: (context) => ManageUser()));
       },
       child: Container(
-        width: Responsive.isMobile(context)
-            ? media.width * 0.85
-            : media.width * 0.20,
+        width: ResponsiveValue(context, defaultValue: media.width * 0.85, valueWhen:  [
+          Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+          Condition.largerThan(name: TABLET, value: media.width * 0.20)
+        ]).value,
         height: media.height * 0.17,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -250,7 +233,12 @@ class _EnduserState extends State<Enduser> {
               Text(
                 "Manage Users",
                 style: GoogleFonts.openSans(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                    fontSize: ResponsiveValue(context, defaultValue: 16.0, valueWhen:  [
+                      Condition.smallerThan(name: MOBILE, value: 12.0),
+                      Condition.largerThan(name: MOBILE, value: 12.0),
+                      Condition.smallerThan(name: DESKTOP, value: 16.0),
+                    ]).value,
+                    fontWeight: FontWeight.bold),
               ),
               Image.asset("assets/team.png")
             ],
@@ -267,9 +255,10 @@ class _EnduserState extends State<Enduser> {
             .push(MaterialPageRoute(builder: (context) => Manage_department()));
       },
       child: Container(
-        width: Responsive.isMobile(context)
-            ? media.width * 0.85
-            : media.width * 0.20,
+        width: ResponsiveValue(context, defaultValue: media.width * 0.85, valueWhen:  [
+          Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+          Condition.largerThan(name: TABLET, value: media.width * 0.20)
+        ]).value,
         height: media.height * 0.17,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -283,7 +272,12 @@ class _EnduserState extends State<Enduser> {
               Text(
                 "Manage Departments",
                 style: GoogleFonts.openSans(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                    fontSize: ResponsiveValue(context, defaultValue: 16.0, valueWhen:  [
+                      Condition.smallerThan(name: MOBILE, value: 12.0),
+                      Condition.largerThan(name: MOBILE, value: 12.0),
+                      Condition.smallerThan(name: DESKTOP, value: 16.0),
+                    ]).value,
+                    fontWeight: FontWeight.bold),
               ),
               Image.asset("assets/people.png")
             ],
@@ -300,9 +294,10 @@ class _EnduserState extends State<Enduser> {
             .push(MaterialPageRoute(builder: (context) => Orgdetail()));
       },
       child: Container(
-        width: Responsive.isMobile(context)
-            ? media.width * 0.85
-            : media.width * 0.20,
+        width: ResponsiveValue(context, defaultValue: media.width * 0.85, valueWhen:  [
+          Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+          Condition.largerThan(name: TABLET, value: media.width * 0.20)
+        ]).value,
         height: media.height * 0.17,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -316,9 +311,14 @@ class _EnduserState extends State<Enduser> {
               Text(
                 "Organisation Details",
                 style: GoogleFonts.openSans(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                    fontSize: ResponsiveValue(context, defaultValue: 16.0, valueWhen:  [
+                      Condition.smallerThan(name: MOBILE, value: 12.0),
+                      Condition.largerThan(name: MOBILE, value: 12.0),
+                      Condition.smallerThan(name: DESKTOP, value: 16.0),
+                    ]).value,
+                    fontWeight: FontWeight.bold),
               ),
-              Image.asset("assets/build.png")
+              Image.asset("assets/build.png",)
             ],
           ),
         ),
@@ -333,10 +333,15 @@ class _EnduserState extends State<Enduser> {
             .push(MaterialPageRoute(builder: (context) => Details()));
       },
       child: Container(
-        width: Responsive.isMobile(context)
-            ? media.width * 0.85
-            : media.width * 0.20,
+        width: ResponsiveValue(context, defaultValue: media.width * 0.85, valueWhen:  [
+          Condition.smallerThan(name: MOBILE, value: media.width * 0.85),
+          Condition.largerThan(name: TABLET, value: media.width * 0.20)
+        ]).value,
         height: media.height * 0.17,
+        /*width: Responsive.isMobile(context)
+            ? media.width * 0.85
+            : media.width * 0.20,*/
+        //height: media.height * 0.17,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Color(0xffe9f0f4),
@@ -349,7 +354,12 @@ class _EnduserState extends State<Enduser> {
               Text(
                 "My Details",
                 style: GoogleFonts.openSans(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                    fontSize: ResponsiveValue(context, defaultValue: 16.0, valueWhen:  [
+                      Condition.smallerThan(name: MOBILE, value: 12.0),
+                      Condition.largerThan(name: MOBILE, value: 12.0),
+                      Condition.smallerThan(name: DESKTOP, value: 16.0),
+                    ]).value,
+                    fontWeight: FontWeight.bold),
               ),
               Image.asset("assets/aunty.png")
             ],
